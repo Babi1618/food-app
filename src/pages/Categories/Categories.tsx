@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { SingleCategory } from "../../components/SingleCategory.tsx/SingleCategory";
 import { useFoodContext } from "../../context/FoodContext";
-import { fetchCategories } from "../../utils/Api";
+import { Home } from "../Home/Home";
 import { StyledCategories } from "./Categories.styled";
 
 export const Categories = () => {
@@ -12,16 +11,16 @@ export const Categories = () => {
     <StyledCategories>
       <Routes>
         {categories.map((cat: any, i: number) => {
-          console.log(cat);
+          <Route path={`/`} element={<Home />}></Route>;
           return (
             <Route
               key={i}
               path={`${cat.strCategory}`}
               element={
                 <SingleCategory
-                  id={cat.idCategory}
-                  name={cat.strCategory}
-                  description={cat.strCategoryDescription}
+                  idCategory={cat.idCategory}
+                  strCategory={cat.strCategory}
+                  strCategoryDescription={cat.strCategoryDescription}
                 />
               }
             />
