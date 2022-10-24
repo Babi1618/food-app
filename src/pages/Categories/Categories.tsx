@@ -1,36 +1,33 @@
 import { useEffect, useState } from "react";
-import { StyledCategory } from "../../components/SingleCategory.tsx/SigleCategory.styled";
+import { Route, Routes } from "react-router-dom";
 import { SingleCategory } from "../../components/SingleCategory.tsx/SingleCategory";
 import { useFoodContext } from "../../context/FoodContext";
 import { fetchCategories } from "../../utils/Api";
 import { StyledCategories } from "./Categories.styled";
 
 export const Categories = () => {
-  const [categories, setCategories] = useState([]);
-  const prova = useFoodContext();
-console.log(prova)
-  const getCategories = async () => {
-    const response = await fetchCategories();
-    setCategories(response);
-  };
-  useEffect(() => {
-    getCategories();
-  }, []);
+  const { categories } = useFoodContext() as any;
 
-  useEffect(() => {
-    console.log(categories);
-  }, [categories]);
   return (
     <StyledCategories>
-      {categories.map((cat: any) => {
-        return (
-          <SingleCategory
-            id={cat.idCategory}
-            name={cat.strCategory}
-            description={cat.strCategoryDescription}
-          />
-        );
-      })}
+      <Routes>
+        {categories.map((cat: any, i: number) => {
+          console.log(cat);
+          return (
+            <Route
+              key={i}
+              path={`${cat.strCategory}`}
+              element={
+                <SingleCategory
+                  id={cat.idCategory}
+                  name={cat.strCategory}
+                  description={cat.strCategoryDescription}
+                />
+              }
+            />
+          );
+        })}
+      </Routes>
     </StyledCategories>
   );
 };
