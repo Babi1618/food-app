@@ -1,16 +1,14 @@
 import { BrowserRouter } from "react-router-dom";
 import "./App.css";
-import { LateralNavbar } from "./components/LateraleNavbar/LateralNavbar";
 import { FoodContextProvider } from "./context/FoodContext";
-import { Categories } from "./pages/Categories/Categories";
+import { Layout } from "./pages/Layout/Layout";
 
 function App() {
   return (
     <div>
       <BrowserRouter>
         <FoodContextProvider>
-          <LateralNavbar></LateralNavbar>
-          <Categories />
+          <Layout />
         </FoodContextProvider>
       </BrowserRouter>
     </div>

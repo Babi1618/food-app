@@ -1,32 +1,48 @@
-import { Route, Routes } from "react-router-dom";
-import { SingleCategory } from "../../components/SingleCategory.tsx/SingleCategory";
+import { useEffect, useState } from "react";
 import { useFoodContext } from "../../context/FoodContext";
-import { Home } from "../Home/Home";
-import { StyledCategories } from "./Categories.styled";
+import { fetchSigleCategory } from "../../utils/Api";
 
 export const Categories = () => {
-  const { categories } = useFoodContext() as any;
+  const { selectedCategory, meals, setMeals } = useFoodContext() as any;
+  const [isMealsLoading, setIsMealsLoading] = useState<boolean>(true);
+
+  const getCategory = async () => {
+    const response = await fetchSigleCategory(selectedCategory.strCategory);
+    setIsMealsLoading(false);
+    setMeals(response.meals);
+  };
+
+  useEffect(() => {
+    if (selectedCategory) {
+      getCategory();
+    }
+  }, [selectedCategory]);
+
+  useEffect(() => {
+    console.log(meals);
+  }, [meals]);
 
   return (
-    <StyledCategories>
-      <Routes>
-        {categories.map((cat: any, i: number) => {
-          <Route path={`/`} element={<Home />}></Route>;
-          return (
-            <Route
-              key={i}
-              path={`${cat.strCategory}`}
-              element={
-                <SingleCategory
-                  idCategory={cat.idCategory}
-                  strCategory={cat.strCategory}
-                  strCategoryDescription={cat.strCategoryDescription}
-                />
-              }
-            />
-          );
-        })}
-      </Routes>
-    </StyledCategories>
+    <>
+      {selectedCategory ? (
+        <div>
+          <h1>{selectedCategory.strCategory}</h1>
+          <div>{selectedCategory.strCategoryDescription}</div>
+          <h3>Menu':</h3>
+          {isMealsLoading ? (
+            <div>Loading...</div>
+          ) : (
+            <div>
+              {meals.map((el: any, i: any) => {
+                return <div key={i}>{el.strMeal}</div>;
+              })}
+            </div>
+          )}
+          <div></div>
+        </div>
+      ) : (
+        <div>NON SELEZ</div>
+      )}
+    </>
   );
 };

@@ -1,26 +1,40 @@
-import { createContext, PropsWithChildren, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  PropsWithChildren,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { fetchCategories } from "../utils/Api";
 
 export const FoodContext = createContext({});
 
 export const FoodContextProvider = (props: PropsWithChildren) => {
-  const prova = "prova";
   const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [meals, setMeals] = useState([]);
 
-  const getCategories = async () => {
-    const response = await fetchCategories();
-    setCategories(response);
-  };
-  useEffect(() => {
-    getCategories();
-  }, []);
+  // const getCategories = useCallback(async () => {
+  //   const response = await fetchCategories();
+  //   setCategories(response);
+  // }, []);
 
-  useEffect(() => {
-    // console.log(categories);
-  }, [categories]);
+  // useEffect(() => {
+  //   getCategories();
+  // }, [getCategories]);
 
   return (
-    <FoodContext.Provider value={{ categories }}>
+    <FoodContext.Provider
+      value={{
+        categories,
+        setCategories,
+        selectedCategory,
+        setSelectedCategory,
+        meals,
+        setMeals,
+      }}
+    >
       {props.children}
     </FoodContext.Provider>
   );
