@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
+import { Modal } from "../../components/Modal/Modal";
 import { useFoodContext } from "../../context/FoodContext";
-import { fetchSigleCategory } from "../../utils/Api";
+import { fetchSigleCategory, fetchSigleMeal } from "../../utils/Api";
 
 export const Categories = () => {
   const { selectedCategory, meals, setMeals } = useFoodContext() as any;
   const [isMealsLoading, setIsMealsLoading] = useState<boolean>(true);
+  const [selectedMeal, setSelectedMeal] = useState<any>(null);
 
   const getCategory = async () => {
     const response = await fetchSigleCategory(selectedCategory.strCategory);
@@ -18,10 +20,6 @@ export const Categories = () => {
     }
   }, [selectedCategory]);
 
-  useEffect(() => {
-    console.log(meals);
-  }, [meals]);
-
   return (
     <>
       {selectedCategory ? (
@@ -34,14 +32,26 @@ export const Categories = () => {
           ) : (
             <div>
               {meals.map((el: any, i: any) => {
-                return <div key={i}>{el.strMeal}</div>;
+                return (
+                  <div
+                    key={i}
+                    onClick={() => {
+                      setSelectedMeal(el);
+                    }}
+                  >
+                    {el.strMeal}
+                  </div>
+                );
               })}
             </div>
           )}
           <div></div>
         </div>
       ) : (
-        <div>NON SELEZ</div>
+        <div>NESSUNA CATEGORIA SELEZIONATA</div>
+      )}
+      {selectedMeal && (
+        <Modal setSelectedData={setSelectedMeal} selectedData={selectedMeal} />
       )}
     </>
   );
