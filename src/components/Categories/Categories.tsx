@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Modal } from "../Modal/Modal";
 import { useFoodContext } from "../../context/FoodContext";
-import { fetchSigleCategory, fetchSigleMeal } from "../../utils/Api";
+import { fetchSigleCategory } from "../../utils/Api";
 
 export const Categories = () => {
   const { selectedCategory, meals, setMeals } = useFoodContext() as any;
