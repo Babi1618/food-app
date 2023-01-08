@@ -12,7 +12,7 @@ export const Modal = ({ selectedData, setSelectedData }: any) => {
   const [otherData, setOtherData] = useState<any>(null);
   const getDataMeal = async () => {
     const response = await fetchSigleMeal(selectedData.idMeal);
-    setOtherData(response.meals[0]);
+    setOtherData(response);
   };
 
   useEffect(() => {

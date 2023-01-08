@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Modal } from "../../components/Modal/Modal";
+import { Modal } from "../Modal/Modal";
 import { useFoodContext } from "../../context/FoodContext";
 import { fetchSigleCategory, fetchSigleMeal } from "../../utils/Api";
 
@@ -11,7 +11,7 @@ export const Categories = () => {
   const getCategory = async () => {
     const response = await fetchSigleCategory(selectedCategory.strCategory);
     setIsMealsLoading(false);
-    setMeals(response.meals);
+    setMeals(response);
   };
 
   useEffect(() => {
